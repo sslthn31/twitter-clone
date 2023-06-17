@@ -34,8 +34,7 @@ const TweetCard = ({
       const updateData: Parameters<
         typeof trpcUtils.tweet.infiniteFeed.setInfiniteData
       >[1] = (oldData) => {
-        if (!oldData) return null;
-        console.log(oldData, "oldData");
+        if (!oldData) return;
         const countModifier = addedLike ? 1 : -1;
 
         return {
@@ -45,22 +44,28 @@ const TweetCard = ({
               ...page,
               tweets: page.tweets.map((tweet) => {
                 if (tweet.id === id) {
-                  console.log("success");
-
                   return {
                     ...tweet,
                     likeCount: tweet.likeCount + countModifier,
                     likedByMe: addedLike,
                   };
                 }
-                console.log("not really");
                 return tweet;
               }),
             };
           }),
         };
       };
+
       trpcUtils.tweet.infiniteFeed.setInfiniteData({}, updateData);
+      trpcUtils.tweet.infiniteFeed.setInfiniteData(
+        { onlyFollowing: true },
+        updateData
+      );
+      trpcUtils.tweet.infiniteProfileFeed.setInfiniteData(
+        { userId: user.id },
+        updateData
+      );
     },
   });
 

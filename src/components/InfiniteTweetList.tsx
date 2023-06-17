@@ -1,6 +1,7 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TweetCard from "./TweetCard";
+import { LoadingAnimation } from "./LoadingAnimation";
 
 type tweetType = {
   id: string;
@@ -18,9 +19,9 @@ type tweetType = {
 type InfiniteTweetListType = {
   isLoading: boolean;
   isError: boolean;
-  hasMore: boolean;
+  hasMore: boolean | undefined;
   fetchNewTweets: () => Promise<unknown>;
-  tweets: tweetType[];
+  tweets: tweetType[] | undefined;
 };
 
 const InfiniteTweetList = ({
@@ -28,9 +29,9 @@ const InfiniteTweetList = ({
   isError,
   isLoading,
   fetchNewTweets,
-  hasMore,
+  hasMore = false,
 }: InfiniteTweetListType) => {
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <LoadingAnimation />;
   if (isError) return <h1>Error...</h1>;
 
   if (!tweets || tweets.length == 0)
@@ -44,7 +45,7 @@ const InfiniteTweetList = ({
         dataLength={tweets.length}
         next={fetchNewTweets}
         hasMore={hasMore}
-        loader={"loading..."}
+        loader={<LoadingAnimation />}
       >
         {tweets.map((tweet) => {
           return <TweetCard key={tweet.id} {...tweet} />;
