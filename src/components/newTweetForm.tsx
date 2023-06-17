@@ -27,10 +27,38 @@ const Form = () => {
   const userSession = useSession();
   const [newTweet, setNewTweet] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>();
+  const trpcUtils = api.useContext();
   const newTweetMutation = api.tweet.create.useMutation({
     onSuccess: (newTweet) => {
-      console.log(newTweet);
       setNewTweet("");
+
+      if (userSession.status != "authenticated") return;
+
+      trpcUtils.tweet.infiniteFeed.setInfiniteData({}, (oldData) => {
+        if (oldData == null || oldData.pages[0] == null) return;
+
+        const newCacheTweet = {
+          ...newTweet,
+          likeCount: 0,
+          likedByMe: false,
+          user: {
+            id: userSession.data.user.id,
+            name: userSession.data.user.name || null,
+            image: userSession.data.user.image || null,
+          },
+        };
+
+        return {
+          ...oldData,
+          pages: [
+            {
+              ...oldData.pages[0],
+              tweets: [newCacheTweet, ...oldData.pages[0].tweets],
+            },
+            ...oldData.pages.slice(1),
+          ],
+        };
+      });
     },
   });
 

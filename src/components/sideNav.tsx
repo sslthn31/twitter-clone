@@ -7,7 +7,7 @@ import { VscAccount, VscHome, VscSignIn, VscSignOut } from "react-icons/vsc";
 const SideNav = () => {
   const session = useSession();
   const user = session.data?.user;
-  console.log(user, "user");
+
   const handleLogout = (): void => {
     signOut();
   };
