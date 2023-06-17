@@ -38,7 +38,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       });
     },
   });
-  if (!profile) return <ErrorPage statusCode={404} />;
+  if (!profile || profile.name == null) return <ErrorPage statusCode={404} />;
   return (
     <>
       <Head>
