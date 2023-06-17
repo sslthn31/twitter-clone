@@ -4,10 +4,7 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
-  createTRPCContext,
 } from "Y/server/api/trpc";
-import { Prisma } from "@prisma/client";
-import { inferAsyncReturnType } from "@trpc/server";
 
 export const profileRouter = createTRPCRouter({
   getById: publicProcedure

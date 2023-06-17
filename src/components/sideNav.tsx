@@ -8,12 +8,6 @@ const SideNav = () => {
   const session = useSession();
   const user = session.data?.user;
 
-  const handleLogout = (): void => {
-    signOut();
-  };
-  const handleLogin = (): void => {
-    signIn();
-  };
   return (
     <div className="sticky top-0 px-2 py-5">
       <ul className="flex flex-col items-start gap-2 whitespace-nowrap">
@@ -40,7 +34,7 @@ const SideNav = () => {
           </li>
         )}
         {user ? (
-          <button onClick={handleLogout}>
+          <button onClick={() => void signOut()}>
             <IconHoverEffect>
               <span className="flex items-center gap-4">
                 <VscSignOut className="h-8 w-8 fill-red-700" />
@@ -51,7 +45,7 @@ const SideNav = () => {
             </IconHoverEffect>
           </button>
         ) : (
-          <button onClick={handleLogin}>
+          <button onClick={() => void signIn()}>
             <IconHoverEffect>
               <span className="flex items-center gap-4">
                 <VscSignIn className="h-8 w-8 fill-green-700" />
