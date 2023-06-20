@@ -7,17 +7,15 @@ type ProfileImageType = {
   className?: string;
 };
 const ProfileImage = ({ src, className = "" }: ProfileImageType) => {
-  function handleImageError() {
-    return <VscAccount />;
-  }
+  const [img, setImg] = React.useState<string | null | undefined>(src);
   return (
     <div
       className={`relative h-12 w-12 overflow-hidden rounded-full ${className}`}
     >
-      {src ? (
+      {img ? (
         <Image
-          onError={handleImageError}
-          src={src}
+          onError={() => setImg(null)}
+          src={img}
           alt="Profile Image"
           quality={100}
           fill
