@@ -16,18 +16,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Head>
         <title>notTwitter</title>
-        <meta 
+        <meta
           name="description"
           content="this is not twitter created by sslthn31"
         />
-        <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <div className="container mx-auto flex items-start sm:pr-4">
-          <SideNav />
-          <div className="min-h-screen flex-grow border-x">
-            <Component {...pageProps} />
-          </div>
+        <link rel="icon" href="/twitter.ico" />
+      </Head>
+      <div className="container mx-auto flex items-start sm:pr-4">
+        <SideNav />
+        <div className="min-h-screen flex-grow border-x">
+          <Component {...pageProps} />
         </div>
+      </div>
     </SessionProvider>
   );
 };
